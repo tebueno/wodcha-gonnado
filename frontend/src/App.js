@@ -16,7 +16,7 @@ componentDidMount() {
 }
 
 getWOD() {
-  fetch('/random').then(response => response.json())
+  fetch('http://localhost/api/random').then(response => response.json())
   .then((data) => {
     this.setState( 
     {

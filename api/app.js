@@ -11,9 +11,25 @@ var app = express();
 var mongoose = require('mongoose');
 
 // Connect to mongodb
-mongoose.connect('mongodb://admin:Ca%24hMon3y@ec2-18-222-24-202.us-east-2.compute.amazonaws.com:27017/db')
-.then(() =>  console.log('connection succesful'))
-.catch((err) => console.error(err));
+const options = {
+  autoIndex: false, // Don't build indexes
+  reconnectTries: 30, // Retry up to 30 times
+  reconnectInterval: 500, // Reconnect every 500ms
+  poolSize: 10, // Maintain up to 10 socket connections
+  bufferMaxEntries: 0
+}
+
+const connectWithRetry = () => {
+  console.log('MongoDB connection with retry')
+  mongoose.connect("mongodb://mongo:27017/db", options).then(() => {
+    console.log('MongoDB is connected')
+  }).catch(err => {
+    console.log('MongoDB connection unsuccessful, retry after 5 seconds.')
+    setTimeout(connectWithRetry, 5000)
+  })
+}
+
+connectWithRetry()
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,20 +37,22 @@ app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/random', usersRouter);
+app.use('/api', indexRouter);
+app.use('/api/random', usersRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
