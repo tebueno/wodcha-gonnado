@@ -1,17 +1,17 @@
-
+/* TODO: fix SCSS compiler issue */
 html, body {
     padding: 0;
     margin: 0;
   }
   
-  html {
+  /*html {
     background: $primary-bg-color;
     font-family: $primary-font-family;
     font-size: $primary-font-size;
     line-height:$primary-line-height;
     letter-spacing:$primary-letter-spaceing;
     color: $primary-font-color;
-  }
+  }*/
   
   *, *:before, *:after {
       -webkit-box-sizing: border-box;
@@ -29,5 +29,5 @@ html, body {
   
   a {
     text-decoration: none;
-    color: $secondary-font-color;
+    /*color: $secondary-font-color;*/ 
   }
