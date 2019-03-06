@@ -11,6 +11,7 @@ var app = express();
 var mongoose = require('mongoose');
 
 // Connect to mongodb
+(function() {
 const options = {
   autoIndex: false, // Don't build indexes
   reconnectTries: 30, // Retry up to 30 times
@@ -30,6 +31,7 @@ const connectWithRetry = () => {
 }
 
 connectWithRetry()
+}())
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
