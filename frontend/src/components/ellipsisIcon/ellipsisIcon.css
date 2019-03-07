@@ -1,0 +1,7 @@
+.card__ellipsis {
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+    height: 15px;
+    padding-top: 5px;
+}

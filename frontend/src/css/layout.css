@@ -1,0 +1,26 @@
+#workouts {
+  column-count: 4;
+  column-gap: 2px;
+  margin: 10px;
+}
+
+/* Masonry on medium-sized screens */
+@media only screen and (max-width: 1024px) and (min-width: 769px) {
+  #workouts {
+    column-count: 3;
+  }
+}
+
+/* Masonry on small screens */
+@media only screen and (max-width: 768px) and (min-width: 541px) {
+  #workouts {
+    column-count: 2;
+  }
+}
+
+/* Masonry on small screens */
+@media only screen and (max-width: 540px) {
+    #workouts {
+      column-count: 1;
+    }
+  }

@@ -1,0 +1,14 @@
+.card {
+    width: 98%;
+    display: inline-block;
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px rgb(145, 142, 142);
+    padding: 0px 15px 15px 15px;
+    margin: 5px;
+    white-space: pre-wrap;
+}
+
+.card:hover {
+    box-shadow: 0 0 0 2px rgb(109, 107, 107);
+    transition: box-shadow 500ms;
+}
