@@ -17,13 +17,12 @@ class App extends Component {
   }
 
   getWOD() {
-    fetch("http://localhost/api/random")
+    fetch("http://localhost/api/wods/all")
       .then(response => response.json())
       .then(data => {
-        const formatWod = data.workout.replace(/\n\n\n/g, "");
-        const arryWod = new Array(10).fill(formatWod);
+        const formatWod = data.map(entry => entry.workout.replace(/\n\n\n|\n\n/g, ""));
         this.setState({
-          wod: arryWod
+          wod: formatWod
         });
       })
       .catch(() => {

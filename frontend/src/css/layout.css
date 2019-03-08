@@ -18,7 +18,7 @@
   }
 }
 
-/* Masonry on small screens */
+/* Masonry on smaller screens */
 @media only screen and (max-width: 540px) {
     #workouts {
       column-count: 1;
