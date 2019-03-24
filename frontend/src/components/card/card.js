@@ -5,15 +5,13 @@ import "./card.css";
 export default class Card extends React.Component {
   render() {
     const {
-      wod
-      //className = 'card',
+      wod,
     } = this.props;
-
     return (
       <React.Fragment>
         <div className="card">
         <EllipsisIcon />
-          {wod}
+          <span>{wod}</span>
         </div>
       </React.Fragment>
     );

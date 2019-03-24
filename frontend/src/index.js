@@ -1,7 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDom from 'react-dom';
 import './css/base.css';
 import App from './App';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import reduxPromise from 'redux-promise';
+import reducers from './reducers/index';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+let initialState = {} 
+const store = createStore(
+  reducers,
+  initialState,
+  applyMiddleware(reduxPromise)
+);
+
+ReactDom.render(<Provider store={store}><App/></Provider>, document.querySelector('#root'));
 
