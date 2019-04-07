@@ -1,9 +1,6 @@
-var express = require("express");
-var router = express.Router();
-let model = require('../models/wods');
+const model = require('../models/wods');
 
-/* GET random workout. */
-router.get("/random", function(req, res, next) {
+const getRandomWod = (req, res, next) => {
   model.count((err, resp) => {
     let random = Math.floor(Math.random() * resp);
     model
@@ -13,10 +10,10 @@ router.get("/random", function(req, res, next) {
         err ? res.send(err) : res.send(wods);
       });
   });
-});
+};
 
-/* GET all workouts */
-router.get("/all", function(req, res, next) {
+const getAllWods = (req, res, next) => {
+    console.log(JSON.stringify(req.query))
     let query = {};
     query.limit = parseInt(req.query.size) || 25;
 
@@ -40,6 +37,10 @@ router.get("/all", function(req, res, next) {
 
       res.send(wods);
     })
-  });
+  }
 
-module.exports = router;
+module.exports = {
+    getRandomWod: getRandomWod,
+    getAllWods: getAllWods,
+
+}
