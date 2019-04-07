@@ -1,6 +1,6 @@
 const model = require('../models/wods');
 
-const getRandomWod = (req, res, next) => {
+const getRandomWod = (req, res) => {
   model.count((err, resp) => {
     let random = Math.floor(Math.random() * resp);
     model
@@ -12,35 +12,27 @@ const getRandomWod = (req, res, next) => {
   });
 };
 
-const getAllWods = (req, res, next) => {
-    console.log(JSON.stringify(req.query))
+const getAllWods = (req, res) => {
     let query = {};
-    query.limit = parseInt(req.query.size) || 25;
 
-    if (!req.query.page && req.query.page !== 1) {
-      let response = {
-        "error": true,
-        "message": 'invalid page parameter',
-      };
-      res.send(response);
-    }
-    query.skip = query.limit * req.query.page;
+    query.limit = parseInt(req.query.size);
+    query.skip = req.query.size * req.query.page;
 
+    // TODO: optimize this code
     model.find({},{}, query, (err, wods) => {
       if(err) {
-        wods = {
+        const error = {
           "error": true,
           "message": `error while fetching data: ${err}`,
         }
-        res.send(wods);
+        res.status(404).send(error);
       }
 
-      res.send(wods);
+      res.status(200).send(wods);
     })
   }
 
 module.exports = {
     getRandomWod: getRandomWod,
     getAllWods: getAllWods,
-
 }
