@@ -6,10 +6,12 @@ export default class Card extends React.Component {
   render() {
     const {
       wod,
+      click,
+      id,
     } = this.props;
     return (
       <React.Fragment>
-        <div className="card">
+        <div index={id} onClick={click} className="card">
         <EllipsisIcon />
           <span>{wod}</span>
         </div>

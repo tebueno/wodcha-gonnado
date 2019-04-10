@@ -1,9 +1,10 @@
 const Joi = require('joi');
 
 const wodQuerySchema = Joi.object().keys({
-    page: Joi.number().integer().min(1).required(),
-    size: Joi.number().integer().required(),
-});
+    page: Joi.number().integer().min(1),
+    size: Joi.number().integer(),
+}).with('page', 'size')
+  .with('size', 'page');
 
 const validateWodQuery = (req, res, next) => {
     Joi.validate(req.query, wodQuerySchema, (err) => {
