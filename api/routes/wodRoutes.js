@@ -7,5 +7,6 @@ router.get('/random', wodController.getRandomWod);
 router.get('/all', [
   queryValidator.validateWodQuery,
   wodController.getAllWods]);
+router.get('/:wodId', wodController.getWodById);
 
 module.exports = router;

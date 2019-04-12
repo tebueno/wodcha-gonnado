@@ -29,5 +29,5 @@ html, body {
   
   a {
     text-decoration: none;
-    /*color: $secondary-font-color;*/ 
+    color: black; /* TODO: choose secondary font color and add here*/
   }

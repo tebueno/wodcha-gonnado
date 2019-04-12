@@ -4,25 +4,42 @@ export default class extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            workout: {}
+            id: '',
+            link: '',
+            workout: '',
         }
     }
 
     componentDidMount() {
-        const { wodId } = this.props.match;
-        // TODO: add get api for workoutID
-        fetch(`http://localhost/api/wods/all`).then(resp => resp.json())
+        const { wodId } = this.props.match.params;
+
+        fetch(`http://localhost/api/wods/${wodId}`).then(resp => resp.json())
         .then(resp => {
-            const workout = resp.filter(workout => workout.id === wodId)[0];
-            this.setState({workout: workout});
+            console.log(resp);
+            this.setState({
+                id: resp._id,
+                link: resp.link,
+                workout: resp.workout,
+            });
         });
     }
+
+    handleChange = (e) => {
+        const textValue = e.target.value;
+        this.setState({
+            workout: textValue,
+        })
+    }
+
     render() { 
-        const { workout } = this.state;
+        const { 
+            workout,
+            id,
+            link } = this.state;
         return ( <div>
-            <div>ID: {workout._id}</div>
-            <div>Link: {workout.link}</div>
-            <div>Workout: {workout.workout}</div>
+            <div>ID: {id}</div>
+            <div>Link: {link}</div>
+            <textarea rows='25' cols='50' onChange={this.handleChange} value={workout}/>
             </div>);
     }
 }

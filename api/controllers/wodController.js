@@ -1,5 +1,8 @@
 const model = require('../models/wods');
 
+// TODO: Must improve error handeling for mongo queries
+// look as some design patterns, figure out how to remove slashes etc.
+
 const getRandomWod = (req, res) => {
   model.count((err, resp) => {
     let random = Math.floor(Math.random() * resp);
@@ -32,7 +35,20 @@ const getAllWods = (req, res) => {
     })
   }
 
+const getWodById = (req, res) => {
+  const { wodId } = req.params;
+  model.findById(wodId, (err, wod) => {
+    if(err) {
+      res.status(404).type('txt').send(err);
+    }
+
+    res.status(200).send(wod);
+
+  })
+}
+
 module.exports = {
     getRandomWod: getRandomWod,
     getAllWods: getAllWods,
+    getWodById: getWodById,
 }
