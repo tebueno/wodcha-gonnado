@@ -11,9 +11,10 @@
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
     "joi": "^14.3.1",
+    "joi-objectid": "^2.0.0",
     "mongoose": "^5.4.0",
     "morgan": "~1.9.0",
     "nodemon": "^1.18.9",
-    "pug": "2.0.0-beta11"
+    "pug": "^2.0.3"
   }
 }

@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import Card from '../components/card/card';
-import WodPage from './Wod';
-import { Route,Link } from 'react-router-dom';
 import '../css/layout.css';
 
 class HomePage extends Component {
@@ -23,7 +21,7 @@ class HomePage extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll.bind(this));
+    window.removeEventListener('scroll', this.handleScroll);
   }
 
   handleScroll = () => {
@@ -41,11 +39,11 @@ class HomePage extends Component {
 
   addSpanRow = () => {
 
-    document.querySelectorAll('.card > span')
+    document.querySelectorAll('.card > div > span ')
       .forEach(item => {
-        let height = item.offsetHeight;
-        let rowSpan = Math.ceil((height + 25) / 125); 
-        item.parentElement.style.gridRowEnd = `span ${rowSpan}`;
+        const height = item.offsetHeight;
+        const rowSpan = Math.ceil((height + 25) / 125); 
+        item.parentElement.parentElement.style.gridRowEnd = `span ${rowSpan}`;
     });
 
   }
@@ -77,23 +75,13 @@ class HomePage extends Component {
       });
   }
 
-  handleClick = (e) => {
-    const index = e.target.getAttribute('index');
-    if(index !== null) {
-      console.log(index);
-      window.location.replace(`http://localhost/workout/${index}`);
-    }
-  }
-
   render() {
-    const cards = this.state.wods.map(wod => <Card click={this.handleClick} key={wod.id} {...wod} />);
-    const { wods } = this.state;
+    const cards = this.state.wods.map(wod => <Card key={wod.id} {...wod} />);
 
     return (
-    <div id='masonry'>
-    {cards}
-    </div>
-    
+      <div id='masonry'>
+      {cards}
+      </div>
     )}
 }
 
