@@ -1,4 +1,8 @@
 import { combineReducers } from 'redux';
-export default combineReducers({
+import { wodReducers, wodObjReducers, movementReducers } from 'reducers/wods'
 
+export default combineReducers({
+    wods: wodReducers,
+    wodObj: wodObjReducers,
+    movements: movementReducers,
 });

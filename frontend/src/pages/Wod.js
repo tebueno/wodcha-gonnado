@@ -1,35 +1,15 @@
 import React, { Component } from 'react';
-import movements from '../movements.json';
-
-export default class extends Component {
+import { connect } from 'react-redux';
+import * as actions from 'actions';
+class Wod extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      id: '',
-      link: '',
-      workout: '',
-      movements: ['Thrusters', 'Pull-ups'],
-      movement: ''
-    };
   }
 
   componentDidMount() {
     const { wodId } = this.props.match.params;
-    // TODO: abstract out the api calls? at least remove hardcoding :)
-    fetch(`http://localhost/api/wods/${wodId}`)
-      .then(resp => resp.json())
-      .then(resp => {
-        this.setState({
-          id: resp._id,
-          link: resp.link,
-          workout: resp.workout
-          // movements: resp.movements || [],
-        });
-      });
+    this.props.fetchWodById(wodId);
   }
-
-  // TODO: combine reusable code
-  handleChange = text =>  this.setState({ workout: text })
 
   handleSubmit = e => {
     let movements = [...this.state.movements];
@@ -37,19 +17,8 @@ export default class extends Component {
     this.setState({ movements: movements });
   };
 
-  handleMovementChange = searchText => {
-    let display = movements.filter(elm => elm.label.toLowerCase().includes(searchText.toLowerCase())).map(elm => elm.label);
-    this.setState({ dropdown: display });
-  };
-
-  handleRemove = movement => {
-    let { movements } = this.state;
-    movements = movements.filter(item => item !== movement);
-    this.setState({ movements: movements });
-  };
-
   render() {
-    const { workout, id, link, movements, dropdown = [] } = this.state;
+    const { workout, _id: id, link, movements = [] } = this.props.wodObj;
 
     return (
       <div>
@@ -60,7 +29,7 @@ export default class extends Component {
         <textarea
           rows='25'
           cols='50'
-          onChange={(event) => this.handleChange(event.target.value)}
+          onChange={(event) => this.props.changeWorkoutTxt(event.target.value)}
           value={workout}
         />
         <h2>Movements</h2>
@@ -68,16 +37,25 @@ export default class extends Component {
         <input
           placeholder='Thruster, Box Jump...Sqaut Clean Snatch Jerk'
           type='text'
-          onChange={(e) => this.handleMovementChange(e.target.value)}
+          onChange={(e) => this.props.searchMovements(e.target.value)}
         />
-        <ul>{dropdown.map(val => <li>{val}</li>)}</ul>
+        <ul>{this.props.movements.map(val => <li>{val}</li>)}</ul>
         {/* <input onClick={this.handleSubmit} type='submit' value='Add Movement' /> */}
         <ul>
           {movements.map(movement => (
-            <li onClick={() => this.handleRemove(movement)}>{movement}</li>
+            <li onClick={() => this.props.removeMovement(movement)}>{movement}</li>
           ))}
         </ul>
       </div>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    wodObj: state.wodObj,
+    movements: state.movements,
+  }
+}
+
+export default connect(mapStateToProps, actions)(Wod);
