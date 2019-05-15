@@ -1,55 +1,67 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import Card from 'components/card/card';
 import 'css/layout.css';
 import { connect } from 'react-redux';
 import * as actions from 'actions';
+import { Link } from 'react-router-dom'; 
 
 class HomePage extends Component {
   constructor(props) {
     super(props);
+    this.masonry = React.createRef();
   }
 
-  componentDidMount() {
-    this.page = 1;
-    this.props.fetchWods(this.page).then(() => this.addSpanRow());
-    window.addEventListener('scroll', this.handleScroll)
+componentDidMount() {
+  this.page = 1;
+  this.props.fetchWods(this.page);
+  window.addEventListener('scroll', this.handleScroll);
+}
+
+componentWillUnmount() {
+  window.removeEventListener('scroll', this.handleScroll);
+}
+
+handleScroll = () => {
+  const { current: masonryElm } = this.masonry; 
+  let container = -1 * masonryElm.getBoundingClientRect().top + window.innerHeight;
+  let height = Math.floor(masonryElm.getBoundingClientRect().height);
+
+  if (container >= height) { 
+      this.page++;
+      this.props.fetchWods(this.page);
   }
+};
 
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
+setRowSpan = (elm) => {
+  if(elm) {
+    const span = elm.querySelector('span');
+    const height = span.offsetHeight;
+    const rowSpan = Math.ceil((height + 25) / 125);
+    elm.parentElement.style.gridRowEnd = `span ${rowSpan}`;
   }
+}
 
-  handleScroll = () => {
-    let container = -1 * document.querySelector('#masonry').getBoundingClientRect().top + window.innerHeight;
-    let height = Math.floor(document.querySelector('#masonry').getBoundingClientRect().height);
-
-    if (container >= height) { 
-       this.page++;
-       this.props.fetchWods(this.page).then(() => this.addSpanRow())
-    }
-  };
-
-  addSpanRow = () => {
-
-    // TODO: make this less brittle
-    document.querySelectorAll('.card > div > span ')
-      .forEach(item => {
-        const height = item.offsetHeight;
-        const rowSpan = Math.ceil((height + 25) / 125); 
-        item.parentElement.parentElement.style.gridRowEnd = `span ${rowSpan}`;
-    });
-
-  }
-
-  render() {
-    const cards = this.props.wods.map(wod => <Card key={wod.id} {...wod} />);
-
+render() {
+  const cards = this.props.wods.map(wod => {
     return (
-      <div id='masonry'>
-      {cards}
-      </div>
-    )
-  }
+      <Card key={wod.id} {...wod}>
+        <div ref={span => this.setRowSpan(span)}>
+          <Link to={`/workout/${wod.id}`}>
+            <div>
+              <span>{wod.wod}</span>
+            </div>
+          </Link>
+        </div>
+      </Card>
+    );
+  });
+
+  return (
+    <div id='masonry' ref={this.masonry}>
+    {cards}
+    </div>
+  )
+}
 }
 
 const mapStateToProps = (state) => { 

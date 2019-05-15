@@ -1,23 +1,19 @@
 import React from 'react';
 import EllipsisIcon from '../ellipsisIcon/ellipsisIcon'
 import "./card.css";
-import { Link } from 'react-router-dom'; 
-
 export default class Card extends React.Component {
+
+  constructor(props) {
+    super(props);
+  }
+
   render() {
-    const {
-      wod,
-      id,
-    } = this.props;
+    const { children: content } = this.props;
     return (
-      <React.Fragment>
-      <Link to={`/workout/${id}`} className='card'> 
-        <div index={id}>
+      <div className='card'>
         <EllipsisIcon />
-          <span>{wod}</span>
-        </div>
-         </Link> 
-      </React.Fragment>
+          {content}
+      </div>
     );
   }
 }
