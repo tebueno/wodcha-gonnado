@@ -3,6 +3,9 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import reduxPromise from 'redux-promise';
 import reducers from 'reducers';
+import HomePage from 'pages/Home';
+import WodPage from 'pages/Wod';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 export default ({ children }) => {
     const store = createStore(
@@ -10,5 +13,12 @@ export default ({ children }) => {
       applyMiddleware(reduxPromise)
     );
   
-    return <Provider store={store}>{children}</Provider>;
+    return <Provider store={store}>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path='/' component={HomePage} />
+        <Route exact path='/workout/:wodId' component={WodPage} />
+      </Switch>
+    </BrowserRouter>
+    {children}</Provider>;
 };
