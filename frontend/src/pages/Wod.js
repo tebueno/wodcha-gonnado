@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from 'actions';
+import Typehead from '../components/typehead/typehead';
 class Wod extends Component {
   constructor(props) {
     super(props);
@@ -34,13 +35,10 @@ class Wod extends Component {
         />
         <h2>Movements</h2>
         <label>Add a Movement:</label>
-        <input
-          placeholder='Thruster, Box Jump...Sqaut Clean Snatch Jerk'
-          type='text'
-          onChange={(e) => this.props.searchMovements(e.target.value)}
+        <Typehead
+          filteredData={this.props.movements}
+          onChange={this.props.searchMovements}
         />
-        <ul>{this.props.movements.map(val => <li>{val}</li>)}</ul>
-        {/* <input onClick={this.handleSubmit} type='submit' value='Add Movement' /> */}
         <ul>
           {movements.map(movement => (
             <li onClick={() => this.props.removeMovement(movement)}>{movement}</li>

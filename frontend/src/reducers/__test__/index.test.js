@@ -1,5 +1,4 @@
 import * as reducers from 'reducers/wods';
-import * as combinedReducers from 'reducers';
 import * as types from 'actions/types';
 import testData from 'testData/fetchWodsResp';
 import expectedResults from 'testData/expectedFetchWods';

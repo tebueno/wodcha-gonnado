@@ -6,6 +6,7 @@ import Root from 'Root';
 import Home from 'pages/Home';
 import testData from 'testData/fetchWodsResp';
 import fetchMock from 'fetch-mock';
+import { wrap } from 'module';
 
 // TODO: add test for:
 // infinity scroll
@@ -17,7 +18,7 @@ const map = {};
 window.addEventListener = jest.fn((event, cb) => {
   map[event] = cb;
 });
-describe('Test rendering of Card component', () => {
+describe('Home component unit test', () => {
   beforeEach(() => {
     const context = createRouterContext();
     wrapped = mount(
@@ -27,20 +28,16 @@ describe('Test rendering of Card component', () => {
       { context }
     );
 
-    /*     fetchMock.getOnce('http://localhost/api/wods/all?size=15&page=2', {
-        "id": "5c0747d29b78ae203b06fa72",
-        "wod": "Recovery Day\nA.\nMobility and Maintenance\n* Choose 1-2 Thoracic Mobility Drills from Kelly Starrett’s Mobility WOD and spend 5-10 minutes with them.\n* Choose 2-3 Lower Body Mobility Drills from Kelly Starrett’s Mobility WOD and spend 10-12 minutes with them.\n* Choose 1-2 Upper Extremity Mobility Drills from Kelly Starrett’s Mobility WOD and spend 5-10 minutes with them.\n– AND/OR –\n* Body work from a licensed body worker (ART, Graston, acupuncture, etc…)\nB.\nNutrition Preparation\n* Ensure that you have quality foods prepared in the appropriate quantities to fuel your efforts for the remainder of the week.\nC.\nMental Restoration\n* Different for everyone – could be meditation or could be gathering with friends; the key is to engage in activities that make your life full and help you recharge your batteries.\n"
-      });*/
   });
 
   it('Renders correctly', () => {
-    /* map.scroll({height: 111}); */
-    /*   Home.contextTypes = {
-    router: React.PropTypes.object
-  }; */
-  fetchMock.getOnce('http://localhost/api/wods/all?size=15&page=1', testData);
-
+    fetchMock.get('http://localhost/api/wods/all?size=15&page=1', testData);
     expect(toJson(wrapped)).toMatchSnapshot();
+  });
+
+  it('Renders workouts',() => {
+    fetchMock.get('http://localhost/api/wods/all?size=15&page=1', testData);
+    console.log(wrapped.find(Home));
   });
 
   afterEach(() => {
@@ -48,3 +45,4 @@ describe('Test rendering of Card component', () => {
   });
 
 });
+

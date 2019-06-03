@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test rendering of Card component Renders correctly 1`] = `
+exports[`Home component unit test Renders correctly 1`] = `
 <_default>
   <Provider
     store={
