@@ -7,7 +7,7 @@
     "enzyme-adapter-react-16": "^1.12.1",
     "enzyme-to-json": "^3.3.5",
     "fetch-mock": "^7.3.3",
-    "node-fetch": "^2.3.0",
+    "node-fetch": "^3.1.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-redux": "^6.0.1",
